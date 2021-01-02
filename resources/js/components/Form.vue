@@ -18,7 +18,8 @@
                 <input id="password" v-model="item.password" type="password" name="password" class="form-control">
             </div>
             <div class="col-md-12 mt-3 text-right">
-                <button class="btn btn-success" @click="saveUser">Add</button>
+                <button class="btn btn-success" @click="saveUser" v-text="item.id > 0 ? 'Update' : 'Add'"></button>
+                <button v-if="item.id > 0" class="btn btn-light" @click="undo">Undo</button>
             </div>
         </div>
     </form>
@@ -37,22 +38,46 @@ export default {
     props: ['item'],
     methods: {
         saveUser() {
-            axios.post("/users", this.item)
-                .then(response => {
-                    if(response.data.success){
-                        alert(response.data.message);
-                        this.$emit('onSaved', this.item);
+            if(this.item.id > 0){
+                axios.put("/users/"+this.item.id, this.item)
+                    .then(response => {
+                        if(response.data.success){
+                            alert(response.data.message);
+                            this.$emit('onSaved', this.item);
+                            this.fetchData();
+                        }
+                    }).catch(error => {
+                    this.errorMessage = error.response.data.message;
+                    if(error.response.data.errors){
+                        this.errorMessage += "<ul>";
+                        Object.keys(error.response.data.errors).forEach((key) => {
+                            this.errorMessage += "<li>" + error.response.data.errors[key][0] + "</li>";
+                        });
+                        this.errorMessage += "</ul>";
                     }
-            }).catch(error => {
-                this.errorMessage = error.response.data.message;
-                if(error.response.data.errors){
-                    this.errorMessage += "<ul>";
-                    Object.keys(error.response.data.errors).forEach((key) => {
-                        this.errorMessage += "<li>" + error.response.data.errors[key][0] + "</li>";
-                    });
-                    this.errorMessage += "</ul>";
-                }
-            })
+                })
+            } else {
+                axios.post("/users", this.item)
+                    .then(response => {
+                        if(response.data.success){
+                            alert(response.data.message);
+                            this.$emit('onSaved', this.item);
+                            this.fetchData();
+                        }
+                    }).catch(error => {
+                    this.errorMessage = error.response.data.message;
+                    if(error.response.data.errors){
+                        this.errorMessage += "<ul>";
+                        Object.keys(error.response.data.errors).forEach((key) => {
+                            this.errorMessage += "<li>" + error.response.data.errors[key][0] + "</li>";
+                        });
+                        this.errorMessage += "</ul>";
+                    }
+                })
+            }
+        },
+        undo() {
+            location.reload();
         }
     }
 }

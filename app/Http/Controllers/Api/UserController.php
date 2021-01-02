@@ -36,7 +36,7 @@ class UserController extends Controller
         if($validator->fails()) {
             return response()->json([
                'success' => false,
-               'message' => 'Bir Hata Oluştu',
+               'message' => 'Somethings went wrong',
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -46,7 +46,7 @@ class UserController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Kaydedildi'
+            'message' => 'Saved'
         ]);
     }
 
@@ -62,15 +62,37 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:50',
+            'email' => 'required|string|email|unique:users,email,'. $id,
+            'password' => 'nullable|string|min:6'
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Somethings went wrong',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        $data = $request->only('name', 'email', 'password');
+        if($request->password != null){
+            $data['password'] = Hash::make($data['password']);
+        }
+        $user->update($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Updated'
+        ]);
     }
 
     /**

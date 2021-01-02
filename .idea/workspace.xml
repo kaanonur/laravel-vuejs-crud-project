@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d0ec1dc5-aef4-422d-a92d-95eca285541d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/UserResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Form.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Pagination.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/bootstrap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Form.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Form.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/pages/user/UserList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/pages/user/UserList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
@@ -153,6 +149,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
@@ -180,7 +177,13 @@
       <workItem from="1609276040314" duration="24000" />
       <workItem from="1609309930585" duration="22000" />
       <workItem from="1609312656268" duration="812000" />
-      <workItem from="1609328884748" duration="11387000" />
+      <workItem from="1609328884748" duration="11598000" />
+      <workItem from="1609398715006" duration="9000" />
+      <workItem from="1609404441233" duration="300000" />
+      <workItem from="1609404945394" duration="122000" />
+      <workItem from="1609408105933" duration="673000" />
+      <workItem from="1609420963256" duration="39000" />
+      <workItem from="1609616918009" duration="4455000" />
     </task>
     <servers />
   </component>
@@ -189,5 +192,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

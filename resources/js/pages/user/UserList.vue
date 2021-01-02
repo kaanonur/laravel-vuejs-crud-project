@@ -10,6 +10,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>E-Mail</th>
+                            <th>Update User</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -17,6 +18,7 @@
                             <td>{{ id }}</td>
                             <td>{{ name }}</td>
                             <td>{{ email }}</td>
+                            <td><button @click="updateUser(id);" class="btn btn-info">Update</button></td>
                         </tr>
                         <tr v-else>
                             <td colspan="3" class="text-center">Not Found Any Data</td>
@@ -34,7 +36,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <Form :item="item" v-on:onSaved="refreshData"></Form>
+                <Form :item="item" v-on:onSaved="refreshData" ref="userForm"></Form>
             </div>
         </div>
     </div>
@@ -77,6 +79,14 @@ export default {
         },
         refreshData(item) {
             this.fetchData();
+        },
+        updateUser(id) {
+            this.$refs.userForm.errorMessage = null;
+            axios.get("/users/"+id).then(response => {
+                this.item = response.data;
+            }).catch(error => {
+                this.errorMessage = error.response.data.message;
+            })
         }
     }
 }

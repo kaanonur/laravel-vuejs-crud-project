@@ -1934,6 +1934,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1948,23 +1949,50 @@ __webpack_require__.r(__webpack_exports__);
     saveUser: function saveUser() {
       var _this = this;
 
-      axios.post("/users", this.item).then(function (response) {
-        if (response.data.success) {
-          alert(response.data.message);
+      if (this.item.id > 0) {
+        axios.put("/users/" + this.item.id, this.item).then(function (response) {
+          if (response.data.success) {
+            alert(response.data.message);
 
-          _this.$emit('onSaved', _this.item);
-        }
-      })["catch"](function (error) {
-        _this.errorMessage = error.response.data.message;
+            _this.$emit('onSaved', _this.item);
 
-        if (error.response.data.errors) {
-          _this.errorMessage += "<ul>";
-          Object.keys(error.response.data.errors).forEach(function (key) {
-            _this.errorMessage += "<li>" + error.response.data.errors[key][0] + "</li>";
-          });
-          _this.errorMessage += "</ul>";
-        }
-      });
+            _this.fetchData();
+          }
+        })["catch"](function (error) {
+          _this.errorMessage = error.response.data.message;
+
+          if (error.response.data.errors) {
+            _this.errorMessage += "<ul>";
+            Object.keys(error.response.data.errors).forEach(function (key) {
+              _this.errorMessage += "<li>" + error.response.data.errors[key][0] + "</li>";
+            });
+            _this.errorMessage += "</ul>";
+          }
+        });
+      } else {
+        axios.post("/users", this.item).then(function (response) {
+          if (response.data.success) {
+            alert(response.data.message);
+
+            _this.$emit('onSaved', _this.item);
+
+            _this.fetchData();
+          }
+        })["catch"](function (error) {
+          _this.errorMessage = error.response.data.message;
+
+          if (error.response.data.errors) {
+            _this.errorMessage += "<ul>";
+            Object.keys(error.response.data.errors).forEach(function (key) {
+              _this.errorMessage += "<li>" + error.response.data.errors[key][0] + "</li>";
+            });
+            _this.errorMessage += "</ul>";
+          }
+        });
+      }
+    },
+    undo: function undo() {
+      location.reload();
     }
   }
 });
@@ -2195,6 +2223,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2236,6 +2266,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     refreshData: function refreshData(item) {
       this.fetchData();
+    },
+    updateUser: function updateUser(id) {
+      var _this2 = this;
+
+      this.$refs.userForm.errorMessage = null;
+      axios.get("/users/" + id).then(function (response) {
+        _this2.item = response.data;
+      })["catch"](function (error) {
+        _this2.errorMessage = error.response.data.message;
+      });
     }
   }
 });
@@ -37932,11 +37972,21 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col-md-12 mt-3 text-right" }, [
-          _c(
-            "button",
-            { staticClass: "btn btn-success", on: { click: _vm.saveUser } },
-            [_vm._v("Add")]
-          )
+          _c("button", {
+            staticClass: "btn btn-success",
+            domProps: {
+              textContent: _vm._s(_vm.item.id > 0 ? "Update" : "Add")
+            },
+            on: { click: _vm.saveUser }
+          }),
+          _vm._v(" "),
+          _vm.item.id > 0
+            ? _c(
+                "button",
+                { staticClass: "btn btn-light", on: { click: _vm.undo } },
+                [_vm._v("Undo")]
+              )
+            : _vm._e()
         ])
       ])
     ]
@@ -38364,7 +38414,22 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(name))]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(email))])
+                          _c("td", [_vm._v(_vm._s(email))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-info",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.updateUser(id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Update")]
+                            )
+                          ])
                         ])
                       : _c("tr", [
                           _c(
@@ -38422,6 +38487,7 @@ var render = function() {
         { staticClass: "col-md-4" },
         [
           _c("Form", {
+            ref: "userForm",
             attrs: { item: _vm.item },
             on: { onSaved: _vm.refreshData }
           })
@@ -38442,7 +38508,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("E-Mail")])
+        _c("th", [_vm._v("E-Mail")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Update User")])
       ])
     ])
   }
@@ -53790,15 +53858,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!******************************************!*\
   !*** ./resources/js/components/Form.vue ***!
   \******************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Form_vue_vue_type_template_id_8048fca2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Form.vue?vue&type=template&id=8048fca2& */ "./resources/js/components/Form.vue?vue&type=template&id=8048fca2&");
 /* harmony import */ var _Form_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form.vue?vue&type=script&lang=js& */ "./resources/js/components/Form.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Form_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Form_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -53828,7 +53895,7 @@ component.options.__file = "resources/js/components/Form.vue"
 /*!*******************************************************************!*\
   !*** ./resources/js/components/Form.vue?vue&type=script&lang=js& ***!
   \*******************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
