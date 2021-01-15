@@ -10,7 +10,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>E-Mail</th>
-                            <th>Update User</th>
+                            <th width="21%">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -18,7 +18,10 @@
                             <td>{{ id }}</td>
                             <td>{{ name }}</td>
                             <td>{{ email }}</td>
-                            <td><button @click="updateUser(id);" class="btn btn-info">Update</button></td>
+                            <td>
+                                <button @click="updateUser(id);" class="btn btn-info">Update</button>
+                                <button @click="deleteUser(id);" class="btn btn-danger">Delete</button>
+                            </td>
                         </tr>
                         <tr v-else>
                             <td colspan="3" class="text-center">Not Found Any Data</td>
@@ -87,7 +90,12 @@ export default {
             }).catch(error => {
                 this.errorMessage = error.response.data.message;
             })
-        }
+        },
+        deleteUser(id) {
+            axios.get("/delete/"+id).then(response => {
+                this.fetchData();
+            })
+        },
     }
 }
 </script>

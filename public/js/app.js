@@ -2225,6 +2225,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2275,6 +2278,13 @@ __webpack_require__.r(__webpack_exports__);
         _this2.item = response.data;
       })["catch"](function (error) {
         _this2.errorMessage = error.response.data.message;
+      });
+    },
+    deleteUser: function deleteUser(id) {
+      var _this3 = this;
+
+      axios.get("/delete/" + id).then(function (response) {
+        _this3.fetchData();
       });
     }
   }
@@ -38428,6 +38438,19 @@ var render = function() {
                                 }
                               },
                               [_vm._v("Update")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteUser(id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Delete")]
                             )
                           ])
                         ])
@@ -38510,7 +38533,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("E-Mail")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Update User")])
+        _c("th", { attrs: { width: "21%" } }, [_vm._v("Actions")])
       ])
     ])
   }
